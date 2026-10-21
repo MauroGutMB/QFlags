@@ -25,6 +25,8 @@ enum GameMode {
 
   final String titleKey;
   final String subtitleKey;
+
+  /// Rodadas iniciais; acertando todas, ganha mais esse tanto (ver Rounds).
   final int? rounds;
   final Duration? timeLimit;
 

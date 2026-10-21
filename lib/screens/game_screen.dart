@@ -8,6 +8,7 @@ import '../data/country_repository.dart';
 import '../game/flag_colors.dart';
 import '../game/flag_looks.dart';
 import '../game/quiz_engine.dart';
+import '../game/rounds.dart';
 import '../l10n/strings.dart';
 import '../models/game_mode.dart';
 import '../theme/app_theme.dart';
@@ -38,7 +39,14 @@ class _GameScreenState extends State<GameScreen> {
   /// A próxima pergunta já vai sendo preparada enquanto o jogador responde.
   late Future<Question> _upcoming;
 
-  int _round = 1;
+  /// Memória e HalfFlag (null no TimeAttack, que é por tempo).
+  late final Rounds? _rounds = _mode.rounds == null
+      ? null
+      : Rounds(block: _mode.rounds!, max: CountryRepository.instance.countries.length);
+
+  /// Rodadas ganhas com a última resposta (bloco completo sem erros).
+  int _bonus = 0;
+
   int _correct = 0;
   int _wrong = 0;
   int? _picked;
@@ -87,9 +95,10 @@ class _GameScreenState extends State<GameScreen> {
     final question = await _upcoming;
     if (!mounted || _finished) return;
     setState(() {
-      if (_question != null) _round++;
+      if (_question != null) _rounds?.next();
       _question = question;
       _picked = null;
+      _bonus = 0;
     });
     _upcoming = _prepare();
   }
@@ -101,16 +110,17 @@ class _GameScreenState extends State<GameScreen> {
     setState(() {
       _picked = index;
       right ? _correct++ : _wrong++;
+      _bonus = _rounds?.answered(errors: _wrong) ?? 0;
     });
     right ? HapticFeedback.selectionClick() : HapticFeedback.mediumImpact();
-    final delay = _mode == GameMode.timeAttack ? 500 : 1000;
+    // Mais tempo na tela quando ganha rodadas, para dar para ler o aviso.
+    final delay = _bonus > 0 ? 1600 : (_mode == GameMode.timeAttack ? 500 : 1000);
     _advance = Timer(Duration(milliseconds: delay), _nextQuestion);
   }
 
   void _nextQuestion() {
     if (_finished) return;
-    final rounds = _mode.rounds;
-    if (rounds != null && _round >= rounds) {
+    if (_rounds?.isLast ?? false) {
       _finish();
       return;
     }
@@ -139,8 +149,9 @@ class _GameScreenState extends State<GameScreen> {
   double get _progress {
     final limit = _mode.timeLimit;
     if (limit != null) return _secondsLeft / limit.inSeconds;
-    final done = _round - 1 + (_picked != null ? 1 : 0);
-    return done / _mode.rounds!;
+    final rounds = _rounds!;
+    final done = rounds.current - 1 + (_picked != null ? 1 : 0);
+    return done / rounds.total;
   }
 
   @override
@@ -180,7 +191,8 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   Widget _header(QColors c, Color accent) {
-    final Widget center = _mode.timeLimit != null
+    final rounds = _rounds;
+    final Widget center = rounds == null
         ? Pill(
             text: '${_secondsLeft ~/ 60}:${(_secondsLeft % 60).toString().padLeft(2, '0')}',
             icon: Icons.timer_outlined,
@@ -189,8 +201,12 @@ class _GameScreenState extends State<GameScreen> {
             fontSize: 20,
           )
         : Text(
-            context.tr('round', {'n': _round, 'total': _mode.rounds!}),
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: c.muted),
+            context.tr('round', {'n': rounds.current, 'total': rounds.total}),
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              color: _bonus > 0 ? accent : c.muted,
+            ),
           );
     return Row(
       children: [
@@ -214,11 +230,13 @@ class _GameScreenState extends State<GameScreen> {
     if (picked == null) return const SizedBox.shrink();
     final right = question.isCorrect(picked);
     return Text(
-      right
-          ? context.tr('correct')
-          : _mode.optionsAreFlags
-              ? context.tr('wrong_colors')
-              : context.tr('wrong', {'name': question.answer.name(context.lang)}),
+      _bonus > 0
+          ? context.tr('perfect_bonus', {'n': _bonus})
+          : right
+              ? context.tr('correct')
+              : _mode.optionsAreFlags
+                  ? context.tr('wrong_colors')
+                  : context.tr('wrong', {'name': question.answer.name(context.lang)}),
       textAlign: TextAlign.center,
       style: TextStyle(
         fontSize: 16,

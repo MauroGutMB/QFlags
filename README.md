@@ -6,6 +6,7 @@ Jogo mobile em Flutter para adivinhar bandeiras (bandeiras de [ssenegas/flutter_
   - **Memória**: a mesma bandeira 4 vezes, só uma com as cores certas; nas outras as cores foram trocadas entre si, pintadas de outra cor ou distorcidas. 10 rodadas.
   - **TimeAttack**: bandeira → nome, 60 segundos.
   - **HalfFlag**: meia bandeira → nome, 10 rodadas.
+  - **Bônus** (Memória e HalfFlag): acertou todas as rodadas sem nenhum erro, ganha mais 10 (10/10 → 20, 20/20 → 30...), até o limite de 193 bandeiras.
 - **Ranking** salvo em SQLite (`sqflite`), separado por modo.
 - **Tema** claro/escuro e **idioma** PT/EN (dicionário em `lib/l10n/strings.dart`), lembrados entre aberturas.
 
@@ -29,6 +30,7 @@ lib/
   models/                 Country, GameMode, Score
   data/                   países (JSON) e ranking (SQLite)
   game/quiz_engine.dart   sorteio das perguntas
+  game/rounds.dart        rodadas e bônus de +10 da Memória e do HalfFlag
   game/flag_colors.dart   cores falsas do modo Memória (paleta + matrizes de cor)
   game/flag_looks.dart    carrega os pixels das bandeiras para o flag_colors
   screens/                início, como jogar, modos, partida, resultado, ranking

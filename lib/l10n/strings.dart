@@ -29,16 +29,16 @@ class Strings {
     'mode_time_attack': {AppLang.pt: 'TimeAttack', AppLang.en: 'TimeAttack'},
     'mode_half_flag': {AppLang.pt: 'HalfFlag', AppLang.en: 'HalfFlag'},
     'mode_memory_sub': {
-      AppLang.pt: 'Ache as cores certas · 10 rodadas',
-      AppLang.en: 'Spot the right colors · 10 rounds',
+      AppLang.pt: 'Ache as cores certas · 10+ rodadas',
+      AppLang.en: 'Spot the right colors · 10+ rounds',
     },
     'mode_time_attack_sub': {
       AppLang.pt: 'Bandeira → nome · 60 segundos',
       AppLang.en: 'Flag → name · 60 seconds',
     },
     'mode_half_flag_sub': {
-      AppLang.pt: 'Meia bandeira → nome · 10 rodadas',
-      AppLang.en: 'Half flag → name · 10 rounds',
+      AppLang.pt: 'Meia bandeira → nome · 10+ rodadas',
+      AppLang.en: 'Half flag → name · 10+ rounds',
     },
 
     // Como jogar
@@ -58,6 +58,10 @@ class Strings {
       AppLang.pt: 'Só metade da bandeira aparece. Descubra de qual país ela é. 10 rodadas.',
       AppLang.en: 'Only half of the flag is shown. Guess which country it belongs to. 10 rounds.',
     },
+    'how_bonus': {
+      AppLang.pt: 'Bônus: na Memória e no HalfFlag, quem acerta todas as rodadas ganha mais 10 (10/10 → 20, 20/20 → 30...), até acabarem as bandeiras.',
+      AppLang.en: 'Bonus: in Memory and HalfFlag, get every round right and you earn 10 more (10/10 → 20, 20/20 → 30...), until the flags run out.',
+    },
     'how_outro': {
       AppLang.pt: 'No fim da partida, digite seu nome para entrar no Ranking.',
       AppLang.en: 'At the end of a game, type your name to enter the Ranking.',
@@ -70,6 +74,7 @@ class Strings {
     'which_country': {AppLang.pt: 'De qual país é esta bandeira?', AppLang.en: 'Which country is this?'},
     'which_half': {AppLang.pt: 'De qual país é esta metade?', AppLang.en: 'Which country is this half from?'},
     'correct': {AppLang.pt: 'Correto!', AppLang.en: 'Correct!'},
+    'perfect_bonus': {AppLang.pt: 'Perfeito! +{n} rodadas', AppLang.en: 'Perfect! +{n} rounds'},
     'wrong_colors': {AppLang.pt: 'Cores erradas!', AppLang.en: 'Wrong colors!'},
     'wrong': {AppLang.pt: 'Errado! Era {name}', AppLang.en: 'Wrong! It was {name}'},
     'flag_option': {AppLang.pt: 'Opção {n}', AppLang.en: 'Option {n}'},

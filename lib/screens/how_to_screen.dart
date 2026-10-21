@@ -54,6 +54,8 @@ class HowToScreen extends StatelessWidget {
             const SizedBox(height: 12),
           ],
           const SizedBox(height: 4),
+          Text(context.tr('how_bonus'), style: body),
+          const SizedBox(height: 12),
           Text(context.tr('how_outro'), style: body),
         ],
       ),
