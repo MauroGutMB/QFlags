@@ -2,6 +2,9 @@
 
 Jogo mobile em Flutter para adivinhar bandeiras (bandeiras de [ssenegas/flutter_flags_quiz](https://github.com/ssenegas/flutter_flags_quiz)).
 
+VÍDEOS:  
+[Código](https://youtu.be/TNrCQX4Kkvc)
+
 - **Modos** (sempre 4 alternativas):
   - **Memória**: a mesma bandeira 4 vezes, só uma com as cores certas; nas outras as cores foram trocadas entre si, pintadas de outra cor ou distorcidas. 10 rodadas.
   - **TimeAttack**: bandeira → nome, 60 segundos.
