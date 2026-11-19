@@ -3,6 +3,7 @@
 Jogo mobile em Flutter para adivinhar bandeiras (bandeiras de [ssenegas/flutter_flags_quiz](https://github.com/ssenegas/flutter_flags_quiz)).
 
 VÍDEOS:  
+[Jogo](https://youtu.be/7CUa7cU2Xk4)  
 [Código](https://youtu.be/TNrCQX4Kkvc)
 
 - **Modos** (sempre 4 alternativas):
